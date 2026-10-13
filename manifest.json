@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "id": "arturo.ssh-host",
+  "name": "SSH Host",
+  "version": "1.0.0",
+  "author": "arturo",
+  "description": "A simple SSH visualization tool for the Omarchy bar.",
+  "license": "MIT",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "Panel.qml"
+  },
+  "barWidget": {
+    "displayName": "SSH Host",
+    "description": "View configured SSH aliases, connection status, and local forwarding ports.",
+    "category": "Network",
+    "allowMultiple": false,
+    "defaultSection": "right",
+    "defaults": {
+      "host": "",
+      "refreshIntervalSec": 30
+    },
+    "schema": [
+      {
+        "key": "host",
+        "type": "string",
+        "label": "SSH host alias",
+        "defaultValue": ""
+      },
+      {
+        "key": "refreshIntervalSec",
+        "type": "integer",
+        "label": "Refresh interval (seconds)",
+        "min": 5,
+        "max": 300,
+        "step": 5,
+        "defaultValue": 30
+      }
+    ]
+  }
+}
