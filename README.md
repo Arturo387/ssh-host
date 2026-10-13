@@ -14,11 +14,11 @@ terminal session.
 
 ## Install
 
+Install the plugin from its public Git repository and enable it:
+
 ```sh
 omarchy plugin add https://github.com/Arturo387/ssh-host.git --enable
 ```
-
-Replace the placeholder with the public repository URL.
 
 ## Use
 
@@ -40,6 +40,8 @@ options, including proxy commands, retain their normal OpenSSH behavior. The
 plugin runs with the user's permissions and is not sandboxed.
 
 ## Remove
+
+Remove the installed plugin by its manifest ID, `arturo.ssh-host`:
 
 ```sh
 omarchy plugin remove arturo.ssh-host

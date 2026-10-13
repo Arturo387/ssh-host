@@ -1,8 +1,13 @@
 import json
 import pathlib
+import sys
+import tempfile
 import unittest
 
 PLUGIN = pathlib.Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(PLUGIN))
+
+import ssh_hosts
 
 
 class PluginContractTests(unittest.TestCase):
@@ -46,13 +51,20 @@ class PluginContractTests(unittest.TestCase):
         self.assertEqual(qml.count("refreshIntervalSec"), 1)
         self.assertFalse((PLUGIN / "Widget.qml").exists())
 
-    def test_ssh_hosts_py_parses_config(self):
-        ssh_path = PLUGIN / "ssh_hosts.py"
-        self.assertTrue(ssh_path.exists(), "ssh_hosts.py must exist")
-        content = ssh_path.read_text()
-        self.assertIn("config_path = Path.home()", content)
-        self.assertIn("host_blocks", content)
-        self.assertIn("localforward", content)
+    def test_configured_aliases_reads_explicit_hosts_and_static_includes(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            config_dir = pathlib.Path(temp_dir)
+            included_config = config_dir / "included.conf"
+            included_config.write_text("Host dev\n  HostName dev.example\n")
+            main_config = config_dir / "config"
+            main_config.write_text(
+                f'Host alpha beta\nInclude "{included_config}"\n'
+                "Host *.example.com !excluded\n"
+            )
+
+            aliases = ssh_hosts.configured_aliases(main_config)
+
+        self.assertEqual(aliases, ["alpha", "beta", "dev"])
 
     def test_ssh_hosts_py_ssh_check(self):
         ssh_path = PLUGIN / "ssh_hosts.py"
