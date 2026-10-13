@@ -5,6 +5,8 @@ background connection status, and configured local forwarding ports at a glance.
 The panel can also start or stop a background connection or open an interactive
 terminal session.
 
+![SSH Host bar panel showing configured aliases, connection status, and forwarding ports](preview.png)
+
 ## Requirements
 
 - Omarchy with Quickshell plugin support
